@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+	<tags>
+		<tag language="English" />
+	</tags>
+	<strings>
+		<!-- Base Dialogs -->
+		<string id="Dialog_MPI_Start" text="As my prisoner, I have something to talk to you about!" />
+		<string id="Dialog_MPI_StartReply" text="So, what do you want now?" />
+		<string id="Dialog_MPI_Close" text="Nothing." />		
+		
+		<!-- Marriage between clan members -->
+		<string id="Dialog_MPI_DemandRansom_Start" text="You better start writing a letter to your clan members for them to deliver some denars to me. Otherwise, it's off with your head!" />
+		<string id="Dialog_MPI_DemandRansom_StartReply" text="W-what?! Please, have mercy![ib:nervous][if:convo_shocked]" />
+		<string id="Dialog_MPI_DemandRansom_0" text="You will have your mercy once I receive my denars!" />
+		<string id="Dialog_MPI_DemandRansom_0_Cancel" text="Calm down, I was only joking..." />
+		<string id="Dialog_MPI_DemandRansom_0_Reply" text="Okay, okay! I will write a letter for my clan members to send you some denars...[if:convo_dismayed]" />
+		
+		<string id="GameMenu_MPI_RansomArrived_SuccessButPrisonerDead" text="You have received ransom from {HERO_NAME}'s clan. However {HERO_NAME} is dead and you did not fulfill your end of the ransom agreement. The members of {HERO_NAME}'s clan will not be happy." />
+		<string id="GameMenu_MPI_RansomArrived_FailedAndPrisonerDead" text="{HERO_NAME}'s clan has refused to pay the ransom. However {HERO_NAME} is dead and you also did not fulfill your end of the ransom agreement. You can consider {HERO_NAME}'s death as payment for the refusal of ransom." />
+		<string id="GameMenu_MPI_RansomArrived_SuccessAndPrisonerAlive" text="You have received ransom from {HERO_NAME}'s clan and also fulfilled your end of the ransom agreement by keeping {HERO_NAME} alive." />
+		<string id="GameMenu_MPI_RansomArrived_FailedButPrisonerAlive" text="{HERO_NAME}'s clan has refused to pay the ransom even though you fulfilled your end of the ransom agreement! There was no benefit in keeping {HERO_NAME} alive. Maybe it's time to do something against {HERO_NAME}!" />
+		
+		<string id="GameMenu_MPI_RansomArrived_SuccessTitle" text="Ransom from {HERO_NAME}'s clan has arrived!" />
+		<string id="GameMenu_MPI_RansomArrived_FailedTitle" text="Ransom from {HERO_NAME}'s clan did not arrive!" />
+		<string id="GameMenu_MPI_RansomArrived_ConfirmButton" text="Okay" />
+		
+		<string id="Announcement_MPI_RansomGiven" text="You have received {AMOUNT} denars as ransom payment to keep {HERO_NAME} alive." />
+		
+		<!-- Force Prisoner To Marry -->
+		<string id="Dialog_MPI_ForceMarriage_Unmarried_Start" text="I want you to marry one of my clan members! In exchange, I will set you free from your current chains." />
+		<string id="Dialog_MPI_ForceMarriage_Unmarried_AskWho" text="Fine...but who do you have in mind?" />
+		<string id="Dialog_MPI_ForceMarriage_Unmarried_AskWhoReply" text="Let's see..." />
+		<string id="Dialog_MPI_ForceMarriage_Unmarried_Finished" text="Very well. I shall accept your proposal. Now set me free..." />
+		
+		<string id="GameMenu_MPI_MarriageSelectionTitle" text="Who should {HERO_NAME} marry?" />
+		<string id="GameMenu_MPI_MarriageSelectionDesc" text="Select a clan member that {HERO_NAME} should marry." />
+		
+		<string id="Announcement_MPI_CompanionsMarried" text="{HERO_NAME} and {HERO_NAME2} are now married!" />
+		
+		<string id="Dialog_ForceMarry_DisabledReason_MarriedAlready" text="The prisoner is already married to {HERO_NAME}..." />
+		<string id="Dialog_ForceMarry_DisabledReason_NoMarryableClanMembers" text="You have no clan members that can be married to {CANDIDATE_NAME}!" />
+		
+		<!-- Hunt Prisoner -->
+		<string id="GameMenu_MPI_HuntingGame_Title" text="Hunting Game" />
+		<string id="GameMenu_MPI_HuntingGame_Start" text="Start the hunting game!" />
+		<string id="GameMenu_MPI_HuntingGame_Cancel" text="Cancel." />
+		
+		<string id="Dialog_MPI_HuntPrisoner_Start" text="My people and I are bored. Let's play the hunting game." />
+		<string id="Dialog_MPI_HuntPrisoner_StartReply" text="W-what is a hunting game?[ib:weary2][if:convo_nervous]" />
+		<string id="Dialog_MPI_HuntPrisoner_0" text="You get a headstart to run, and we hunt you down afterwards!" />
+		<string id="Dialog_MPI_HuntPrisoner_0Reply" text="No, please! Have mercy! [ib:nervous][if:convo_shocked]" />
+		<string id="Dialog_MPI_HuntPrisoner_1" text="The only mercy you are getting is the headstart! Now run!" />
+		<string id="Dialog_MPI_HuntPrisoner_1_cancel" text="Hah! Look at your face! I was only joking..." />
+		
+		<string id="Dialog_MPI_HuntPrisoner_DisabledReason" text="You have already started a hunting game targeting {HERO_NAME}! Finish it first!" />
+		<string id="Dialog_MPI_HuntPrisoner_PrisonerTooWounded" text="Prisoner is too injured to be involved." />
+		
+		<string id="GameMenu_MPI_HuntPrisonerFailed_Title" text="You can no longer start the hunting game!" />
+		<string id="GameMenu_MPI_HuntPrisonerFailed_Desc" text="{HERO_NAME} is no longer a prisoner of your party! You will have to cancel it..." />
+		<string id="GameMenu_MPI_HuntPrisonerFailed_Confirm" text="I see..." />
+		
+		
+		<!-- Persuade Prisoner To Become Companion -->
+		<string id="Dialog_MPI_PersuadePrisoner_Start" text="I want you to reconsider your allegiance." />
+		<string id="Dialog_MPI_PersuadePrisoner_StartReply" text="What do you mean?" />
+		<string id="Dialog_MPI_PersuadePrisoner_1_Continue" text="I want you to reconsider who you are loyal to." />
+		<string id="Dialog_MPI_PersuadePrisoner_1_Cancel" text="Nothing." />		
+		<string id="Dialog_MPI_PersuadePrisoner_2_AlreadyAskedBefore" text="I have already given you my answer, no." />
+		<string id="Dialog_MPI_PersuadePrisoner_2_CanContinue" text="I see...what do you have in mind?" />
+		
+		<string id="Dialogs_MPI_ConvertLord_LeaderChoice" text="Your leader is not worthy of you. Pledge your loyalty to me and I will lead you to higher places." />
+		<string id="Dialogs_MPI_ConvertLord_CalculateChoice" text="I am sure you do not like the prisoner treatment. Pledging your loyalty to me will be your best option right now." />
+		<string id="Dialogs_MPI_ConvertLord_MercyChoice" text="I cannot let {?INTERLOCUTOR.GENDER}a beautiful woman{?}a handsome young man{\\?} such as yourself to serve an incompetent leader! Serve me and I'll protect you." />
+		<string id="Dialogs_MPI_ConvertLord_GenerosityCharm" text="It is a beautiful day outside, and {?INTERLOCUTOR.GENDER}an adventurous woman{?}an adventurous man{\\?} like you needs to be free to see it. Serve me instead and you shall be free." />
+		
+		<string id="Dialog_MPI_PersuadePrisoner_Success" text="I see. Very well, I will join you!" />
+		
+		<string id="Dialogs_MPI_ConvertLord_DisabledReason_CompanionLimit" text="You have reached the companion limit!" />
+		<string id="Dialogs_MPI_ConvertLord_DisabledReason_LeaderOfKingdom" text="You cannot convert a leader of a kingdom to a companion!" />
+		<string id="Dialogs_MPI_ConvertLord_DisabledReason_LeaderOfClan" text="You cannot convert a leader of a clan to a companion!" />
+		
+		<string id="Dialogs_MPI_ConvertLord_FailLine" text="You cannot convince me. I am not interested." />
+		<string id="Dialogs_MPI_ConvertLord_TryLater" text="I have no idea what to say. I will come back a later time." />
+		<string id="Dialogs_MPI_ConvertLord_SpokenLine" text="What do you have in mind?" />
+
+		
+		<!-- Strip Prisoner Lords -->
+		<string id="Dialog_MPI_StripEquipment_Start" text="Your equipment looks nice! I will be taking them away." />
+		<string id="Dialog_MPI_StripEquipment_StartReply" text="W-what?![ib:nervous][if:convo_shocked]" />
+		<string id="Dialog_MPI_StripEquipment_0" text="Yes, Now strip!" />
+		<string id="Dialog_MPI_StripEquipment_0_Cancel" text="Nah, I was only joking!" />
+		<string id="Dialog_MPI_StripEquipment_0_Reply" text="You monster!" />
+		
+		<string id="Dialogs_MPI_StripEquipment_DisabledReason" text="You have already stripped this person's equipment!" />
+		
+		<string id="Announcement_MPI_StripEquipment" text="{EQUIPMENT_NAME} has been taken!" />
+		
+		<!-- Settings Text -->
+		<string id="Settings_MPI_DemandRansom" text="Demand Ransom" />
+		<string id="Settings_MPI_RansomMinDays" text="Minimum Days For Ransom To Arrive" />
+		<string id="Settings_MPI_RansomMinDaysDesc" text="The minimum number of days for the ransom denars to arrive after prisoner writes a letter." />
+		<string id="Settings_MPI_RansomMaxDays" text="Maximum Days For Ransom To Arrive" />
+		<string id="Settings_MPI_RansomMaxDaysDesc" text="The maximum number of days for the ransom denars to arrive after prisoner writes a letter." />
+		<string id="Settings_MPI_ChanceToPayRansom" text="Chance For Clan Members To Send Ransom" />
+		<string id="Settings_MPI_ChanceToPayRansomDesc" text="After the prisoner writes a letter to his/her clan members, this is the chance that the clan members will send the ransom amount." />
+		<string id="Settings_MPI_RansomGivenPrisonerDeadMinRelationLoss" text="Ransom Given But Prisoner Dead Minimum Relation Loss" />
+		<string id="Settings_MPI_RansomGivenPrisonerDeadMinRelationLossDesc" text="After the ransom arrives, but the prisoner is dead. The prisoner's clan members will not be happy. How much should the minimum relation loss with the clan members be?" />
+		<string id="Settings_MPI_RansomGivenPrisonerDeadMaxRelationLoss" text="Ransom Given But Prisoner Dead Maximum Relation Loss" />
+		<string id="Settings_MPI_RansomGivenPrisonerDeadMaxRelationLossDesc" text="After the ransom arrives, but the prisoner is dead. The prisoner's clan members will not be happy. How much should the maximum relation loss with the clan members be?" />
+		
+		<string id="Settings_MPI_Strip" text="Strip Lords" />
+		<string id="Settings_MPI_StripMinRelationLoss" text="Minimum Relation Loss From Strip" />
+		<string id="Settings_MPI_StripMinRelationLossDesc" text="The minimum amount of relations that will be lost with the lord that you stripped." />
+		<string id="Settings_MPI_StripMaxRelationLoss" text="Maximum Relation Loss From Strip" />
+		<string id="Settings_MPI_StripMaxRelationLossDesc" text="The maximum amount of relations that will be lost with the lord that you stripped." />
+		
+		<string id="Settings_MPI_ForceMarriage" text="Forced Marriage" />
+		<string id="Settings_MPI_ForceMarriageIncestAllowed" text="Is Incest Allowed For Forced Marriage?" />
+		<string id="Settings_MPI_ForceMarriageSameSexAllowed" text="Is Same Sex Allowed For Forced Marriage?" />
+		<string id="Settings_MPI_ForceMarriagePatchMultipleSpouses" text="Patch for mods that allow multiple spouse." />
+		
+		
+	</strings>
+</base>

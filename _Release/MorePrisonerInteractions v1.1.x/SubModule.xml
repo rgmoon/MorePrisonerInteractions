@@ -1,0 +1,27 @@
+<Module>
+     <Name value="More Prisoner Interactions"/>
+     <Id value="MorePrisonerInteractions"/>
+     <Version value="v1.1.2"/>
+     <SingleplayerModule value="true"/>
+     <MultiplayerModule value="false"/>
+     <DependedModules>
+         <DependedModule Id="Native"/>
+         <DependedModule Id="SandBoxCore"/>
+         <DependedModule Id="Sandbox"/>
+         <DependedModule Id="CustomBattle"/>
+         <DependedModule Id="StoryMode" />
+  	   <DependedModule Id="Bannerlord.MBOptionScreen" />
+     </DependedModules>
+     <SubModules>
+         <SubModule>
+             <Name value="MorePrisonerInteractions"/>
+             <DLLName value="MorePrisonerInteractions.dll"/>
+             <SubModuleClassType value="MorePrisonerInteractions.SubModule"/>
+             <Tags>
+                 <Tag key="DedicatedServerType" value="none" />
+                 <Tag key="IsNoRenderModeElement" value="false" />
+             </Tags>
+         </SubModule>
+     </SubModules>
+     <Xmls/>
+ </Module>
