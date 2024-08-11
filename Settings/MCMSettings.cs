@@ -41,5 +41,6 @@ namespace MoreHeroInteractions.Settings
         public int stripPrisonerLordMaxRelationLoss { get; set; } = 3;
 
 
+
     }
 }

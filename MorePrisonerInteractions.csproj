@@ -67,6 +67,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\TaleWorlds.DotNet.dll</HintPath>
     </Reference>
+    <Reference Include="TaleWorlds.Engine">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\TaleWorlds.Engine.dll</HintPath>
+    </Reference>
     <Reference Include="TaleWorlds.Library">
       <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\TaleWorlds.Library.dll</HintPath>
     </Reference>
@@ -85,6 +88,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behavior\BridePriceInfo.cs" />
+    <Compile Include="Behavior\CustomSaveDefiner.cs" />
     <Compile Include="Behavior\DemandRansomBehavior.cs" />
     <Compile Include="Behavior\ForcePrisonerToMarryBehavior.cs" />
     <Compile Include="Behavior\HuntPrisonerBehavior.cs" />
@@ -93,11 +98,39 @@
     <Compile Include="Behavior\StripEquipmentBehavior.cs" />
     <Compile Include="Helper\MPIHelper.cs" />
     <Compile Include="Patches\CompanionToLordPatch.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="SaveData\MPISaveDefiner.cs" />
     <Compile Include="Settings\GlobalModSettings.cs" />
     <Compile Include="Settings\MCMSettings.cs" />
     <Compile Include="SubModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="0Harmony.dll" />
+    <Content Include="Bannerlord.Harmony.dll" />
+    <Content Include="MCM.UI.Adapter.MCMv5.dll" />
+    <Content Include="MCMv5.dll" />
+    <Content Include="MCMv5.UI.dll" />
+    <Content Include="SandBox.dll" />
+    <Content Include="TaleWorlds.CampaignSystem.dll" />
+    <Content Include="TaleWorlds.Core.dll" />
+    <Content Include="TaleWorlds.DotNet.dll" />
+    <Content Include="TaleWorlds.Engine.dll" />
+    <Content Include="TaleWorlds.Library.dll" />
+    <Content Include="TaleWorlds.Localization.dll" />
+    <Content Include="TaleWorlds.MountAndBlade.dll" />
+    <Content Include="TaleWorlds.ObjectSystem.dll" />
+    <Content Include="TaleWorlds.SaveSystem.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

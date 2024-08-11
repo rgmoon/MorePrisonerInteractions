@@ -44,6 +44,7 @@ namespace MorePrisonerInteractions
             }
         }
 
+
         protected override void OnApplicationTick(float dt)
         {
             UpdateHuntMission();
