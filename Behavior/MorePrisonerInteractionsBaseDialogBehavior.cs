@@ -27,6 +27,7 @@ namespace MorePrisonerInteractions.Behavior
             gameStarter.AddPlayerLine("dialog_mpi_start_trigger", "hero_main_options", "dialog_mpi_start", "{=Dialog_MPI_Start}As my prisoner, I have something to talk to you about!", new ConversationSentence.OnConditionDelegate(this.CanSpeakToPrisoner), null, 100, null, null);
             gameStarter.AddPlayerLine("dialog_mpi_start_trigger", "CEPrisonerInParty", "dialog_mpi_start", "{=Dialog_MPI_Start}As my prisoner, I have something to talk to you about!", new ConversationSentence.OnConditionDelegate(this.CanSpeakToPrisoner), null, 100, null, null);
             gameStarter.AddPlayerLine("dialog_mpi_start_trigger", "prisoner_recruit_start_player", "dialog_mpi_start", "{=Dialog_MPI_Start}As my prisoner, I have something to talk to you about!", new ConversationSentence.OnConditionDelegate(this.CanSpeakToPrisoner), null, 100, null, null);
+            gameStarter.AddPlayerLine("dialog_mpi_start_trigger", "Ask_Faction", "dialog_mpi_start", "{=Dialog_MPI_Start}As my prisoner, I have something to talk to you about!", new ConversationSentence.OnConditionDelegate(this.CanSpeakToPrisoner), null, 100, null, null);
             gameStarter.AddDialogLine("dialog_mpi_start", "dialog_mpi_start", "dialog_mpi_main_options", "{=Dialog_MPI_StartReply}So, what do you want now?", null, null, 100, null);
             gameStarter.AddPlayerLine("dialog_mpi_start_trigger", "dialog_mpi_main_options", "lord_pretalk", "{=Dialog_MPI_Close}Nothing.", null, null, 99, null, null);
         }

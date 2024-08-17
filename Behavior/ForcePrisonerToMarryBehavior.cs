@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
@@ -17,6 +18,8 @@ using System.IO;
 using MoreHeroInteractions.Settings;
 using static TaleWorlds.CampaignSystem.CharacterDevelopment.DefaultPerks;
 using static TaleWorlds.CampaignSystem.CampaignTime;
+using TaleWorlds.CampaignSystem.CampaignBehaviors;
+using System.Runtime.Remoting.Messaging;
 namespace MorePrisonerInteractions.Behavior
 {
     public class ForcePrisonerToMarryBehavior : CampaignBehaviorBase
@@ -28,6 +31,16 @@ namespace MorePrisonerInteractions.Behavior
         public override void RegisterEvents()
         {
             CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, AddDialogs);
+            CampaignEvents.HeroPrisonerReleased.AddNonSerializedListener(this, OnHeroPrisonerReleased);
+        }
+
+        private void OnHeroPrisonerReleased(Hero hero, PartyBase @base, IFaction faction, EndCaptivityDetail detail)
+        {
+            if (BriceData.ContainsKey(hero))
+            {
+                BriceData.Remove(hero);
+                PaidBefore.Remove(hero);
+            }
         }
 
         public override void SyncData(IDataStore dataStore)
@@ -43,11 +56,9 @@ namespace MorePrisonerInteractions.Behavior
             }
             return PaidBefore[hero];
         }
-
         void AddDialogs(CampaignGameStarter gameStarter)
         {
             gameStarter.AddPlayerLine("dialog_mpi_forcemarriage_unmarried_0", "dialog_mpi_main_options", "dialog_mpi_forcemarriage_unmarried_1", "{=Dialog_MPI_ForceMarriage_Unmarried_Start}I want you to marry one of my clan members! In exchange, I will set you free from your current chains.", null, null, 100, new ConversationSentence.OnClickableConditionDelegate(CanForceMarry));
-            //gameStarter.AddDialogLine("dialog_mpi_forcemarriage_unmarried_1", "dialog_mpi_forcemarriage_unmarried_1", "dialog_mpi_forcemarriage_unmarried_2", "{=Dialog_MPI_ForceMarriage_Unmarried_AskWho}Fine...but who do you have in mind?", () => ClanCondition(Clan.PlayerClan, Hero.OneToOneConversationHero.Clan), null);
             gameStarter.AddDialogLine("dialog_mpi_forcemarriage_unmarried_1", "dialog_mpi_forcemarriage_unmarried_1", "dialog_mpi_forcemarriage_unmarried_1_1", "{=!}{Dialog_MPI_ForceMarriage_LordAskforDenierOrNot}", () => !HasPaidBridePrice(Hero.OneToOneConversationHero)&&RelationShip(), () => BridePrice());
             gameStarter.AddDialogLine("dialog_mpi_forcemarriage_unmarried_2", "dialog_mpi_forcemarriage_unmarried_1", "dialog_mpi_forcemarriage_unmarried_2", "I remember you...Now Who should I marry ?", ()=>HasPaidBridePrice(Hero.OneToOneConversationHero), null);
 
@@ -63,12 +74,13 @@ namespace MorePrisonerInteractions.Behavior
             gameStarter.AddDialogLine("dialog_mpi_forcemarriage_ConsiderAgain_2", "dialog_mpi_forcemarriage_ConsiderAgain", "close_window", "{=!}{Dialog_MPI_ForceMarriage_ConsiderAgainSpeak}Hmm...I will Consider That... Come back to me later", () => IsCanConsiderAgain(), ()=> ConsiderFunction());
             gameStarter.AddDialogLine("dialog_mpi_forcemarriage_ConsiderAgain_2", "dialog_mpi_forcemarriage_ConsiderAgain", "dialog_mpi_main_options", "{=!}{Dialog_MPI_ForceMarriage_ConsiderAgainSpeak}I already give you answer. NO!", null, null);
             gameStarter.AddPlayerLine("dialog_mpi_forcemarriage_CanNotGiveGold", "dialog_mpi_forcemarriage_unmarried_1_1", "close_window", "{=Dialog_MPI_ForceMarriage_CantGive}Nevermind.", null, null, 100);
-            //gameStarter.AddDialogLine("dialog_mpi_forcemarriage_unmarried_1", "dialog_mpi_forcemarriage_unmarried_1_1", "dialog_mpi_forcemarriage_unmarried_1_2", "{=!}{Dialog_MPI_ForceMarriage_LordAskforDenierOrNot}Test", null, null);
 
             gameStarter.AddPlayerLine("dialog_mpi_forcemarriage_unmarried_2", "dialog_mpi_forcemarriage_unmarried_2", "dialog_mpi_forcemarriage_unmarried_3", "{=Dialog_MPI_ForceMarriage_Unmarried_AskWhoReply}Let's see...", null, () => OpenInquiryMenuForMarryableMembers());
-            gameStarter.AddPlayerLine("dialog_mpi_forcemarriage_unmarried_3", "dialog_mpi_forcemarriage_unmarried_3", "dialog_mpi_forcemarriage_unmarried_4", "...", null, null);
-            gameStarter.AddDialogLine("dialog_mpi_forcemarriage_unmarried_4", "dialog_mpi_forcemarriage_unmarried_4", "LordAskforDenierOrNot", "{=Dialog_MPI_ForceMarriage_LordAskforDenierOrNot}", null, null);
-            gameStarter.AddDialogLine("dialog_mpi_forcemarriage_unmarried_5", "LordAskforDenierOrNot", "lord_pretalk", "{=Dialog_MPI_ForceMarriage_Unmarried_Finished}", null, null);
+
+            gameStarter.AddDialogLine("dialog_mpi_forcemarriage_unmarried_3", "dialog_mpi_forcemarriage_unmarried_3", "dialog_mpi_forcemarriage_unmarried_4", "...", null, null);
+            gameStarter.AddDialogLine("dialog_mpi_forcemarriage_unmarried_3", "dialog_mpi_forcemarriage_unmarried_4", "dialog_mpi_forcemarriage_unmarried_5", "{=Dialog_MPI_ForceMarriage_married_Finished}I promise I'll treat {?INTERLOCUTOR.GENDER}him{?}her{\\?} as well as I can.", ()=>MarriedOrNot(Hero.OneToOneConversationHero), null);
+            gameStarter.AddDialogLine("dialog_mpi_forcemarriage_unmarried_3", "dialog_mpi_forcemarriage_unmarried_4", "dialog_mpi_forcemarriage_unmarried_5", "{=Dialog_MPI_ForceMarriage_Unmarried_Finished}Oh well. I think I'll waiting for you until you found a good person for me.", null, null);
+            gameStarter.AddDialogLine("dialog_mpi_forcemarriage_unmarried_3", "dialog_mpi_forcemarriage_unmarried_5", "dialog_mpi_main_options", "{=Dialog_MPI_ForceMarriage_Unmarried_Finished}So. What now?", null, null);
 
 
         }
@@ -78,7 +90,7 @@ namespace MorePrisonerInteractions.Behavior
             List<InquiryElement> list = new List<InquiryElement>();
             foreach (Hero hero in Clan.PlayerClan.Heroes)
             {
-                if (CanMarry(Hero.OneToOneConversationHero, hero) && hero.IsAlive && hero.Clan == Clan.PlayerClan)
+                if (CanMarry(hero, Hero.OneToOneConversationHero) && hero.IsAlive && hero.Clan == Clan.PlayerClan)
                 {
                     list.Add(new InquiryElement(hero.Id, hero.Name.ToString(), new ImageIdentifier(CharacterCode.CreateFrom(hero.CharacterObject))));
                 }
@@ -97,7 +109,6 @@ namespace MorePrisonerInteractions.Behavior
 
             if (first != null && Hero.OneToOneConversationHero != null)
             {
-                InformationManager.DisplayMessage(new InformationMessage($"Attempting to marry {first.Name} and {Hero.OneToOneConversationHero.Name}"));
                 if (CanMarry(first, Hero.OneToOneConversationHero))
                 {
                     MarriageAction.Apply(first, Hero.OneToOneConversationHero);
@@ -113,7 +124,11 @@ namespace MorePrisonerInteractions.Behavior
 
                         if (elementWithPredicate == null)
                         {
-                            throw new Exception($"[MorePrisonerInteractions]: {Hero.OneToOneConversationHero.Name}'s culture ({Hero.OneToOneConversationHero.CharacterObject.Culture.Name}) has no wanderer templates. Please contact the author of this culture instead of MorePrisonerInteractions.");
+                            elementWithPredicate = TaleWorlds.Core.Extensions.GetRandomElementWithPredicate<CharacterObject>(Hero.OneToOneConversationHero.Culture.NotableAndWandererTemplates, (Func<CharacterObject, bool>)(x => x.Occupation == Occupation.Wanderer && x.CivilianEquipments != null));
+                            if (elementWithPredicate == null)
+                            {
+                                throw new Exception($"[MorePrisonerInteractions]: {Hero.OneToOneConversationHero.Name}'s culture ({Hero.OneToOneConversationHero.CharacterObject.Culture.Name}) has no wanderer or lords templates. Please contact the author of this culture instead of MorePrisonerInteractions.");
+                            }
                         }
 
                         Hero.OneToOneConversationHero.CharacterObject.StringId = "MPI" + Hero.OneToOneConversationHero.CharacterObject.StringId;
@@ -125,13 +140,38 @@ namespace MorePrisonerInteractions.Behavior
                     EndCaptivityAction.ApplyByReleasedByChoice(Hero.OneToOneConversationHero, Hero.MainHero);
                     AddHeroToPartyAction.Apply(Hero.OneToOneConversationHero, MobileParty.MainParty);
                     Clan clan = Hero.OneToOneConversationHero.Clan;
-                    ChangeClanLeaderAction.ApplyWithoutSelectedNewLeader(clan);
                     clan.Heroes.Remove(Hero.OneToOneConversationHero);
+                    ChangeClanLeaderAction.ApplyWithoutSelectedNewLeader(clan);
                     AddCompanionAction.Apply(Clan.PlayerClan, Hero.OneToOneConversationHero);
                     TextObject announcement = new TextObject("{=Announcement_MPI_CompanionsMarried}{HERO_NAME} and {HERO_NAME2} are now married!");
                     announcement.SetTextVariable("HERO_NAME", Hero.OneToOneConversationHero.Name);
                     announcement.SetTextVariable("HERO_NAME2", first.Name);
                     MBInformationManager.AddQuickInformation(announcement, 0, null, "event:/ui/notification/relation");
+                    if (clan.Leader == Hero.OneToOneConversationHero)
+                    {
+                        if (clan.Heroes.Count >= 0)
+                        {
+                            for (int i = clan.Heroes.Count - 1; i >= 0; --i)
+                            {
+                                if (clan.Heroes.ElementAt(i).IsAlive && clan.Heroes.ElementAt(i).IsChild)
+                                {
+                                    clan.SetLeader(clan.Heroes.ElementAt(i));
+                                    break;
+                                }
+                            }
+                            if(clan.Leader == Hero.OneToOneConversationHero)
+                            {
+                                CharacterObject character = CharacterObject.All.FirstOrDefault(c => c.Occupation == Occupation.Lord);
+                                Hero temphero = HeroCreator.CreateSpecialHero(character, null, clan, null, -1);
+                                TextObject FistName = new TextObject("Clan Leader");
+                                TextObject LastName = new TextObject("Dead");
+                                temphero.SetName(LastName, FistName);
+                                clan.SetLeader(temphero);
+                                DestroyClanAction.Apply(clan);
+                            }
+                        }
+                        
+                    }
                     Campaign.Current.ConversationManager.ContinueConversation();
                 }
                 else
@@ -144,11 +184,18 @@ namespace MorePrisonerInteractions.Behavior
                 throw new Exception("One or both heroes are null.");
             }
         }
+        bool MarriedOrNot(Hero x)
+        {
+            if (x.Spouse != null)
+            {
+                return true;
+            }
+            return false;
+        }
 
 
         void HandleFailedInquiryMenuForMarriage(List<InquiryElement> inqury)
         {
-            Campaign.Current.ConversationManager.ContinueConversation();
             Campaign.Current.ConversationManager.ContinueConversation();
         }
 
@@ -176,11 +223,12 @@ namespace MorePrisonerInteractions.Behavior
 
         bool CanMarry(Hero x, Hero hero)
         {
-            if (hero.Spouse != null)
+            bool Disgusting = true;
+            if (x.Spouse != null /*|| !Disgusting*/)
             {
                 return false;
             }
-            return Campaign.Current.Models.MarriageModel.IsCoupleSuitableForMarriage(x, hero) || ((x.IsWanderer || hero.IsWanderer) && (x.IsFemale != hero.IsFemale));
+            return Campaign.Current.Models.MarriageModel.IsCoupleSuitableForMarriage(x, hero) || ((x.IsWanderer || x.IsHumanPlayerCharacter || hero.IsWanderer) && (x.IsFemale != hero.IsFemale));
         }
         bool ConsiderCondition(out TextObject reason)
         {
@@ -394,7 +442,7 @@ namespace MorePrisonerInteractions.Behavior
                    hero.ChangeHeroGold(BriceData[Hero.OneToOneConversationHero].PlayerBridePrice / (Hero.OneToOneConversationHero.Clan.Heroes.Count - 1));
                }
            }
-           InformationManager.DisplayMessage(new InformationMessage($"你支付了 {BriceData[Hero.OneToOneConversationHero].PlayerBridePrice} 第納爾。"));
+           InformationManager.DisplayMessage(new InformationMessage($"You paid {BriceData[Hero.OneToOneConversationHero].PlayerBridePrice} denar."));
            SoundEvent yourSoundEvent = SoundEvent.CreateEvent(SoundEvent.GetEventIdFromString("event:/ui/notification/coins_negative"), Mission.Current.Scene);
            yourSoundEvent.Play();
            PaidBefore[Hero.OneToOneConversationHero] = true;
@@ -444,6 +492,7 @@ namespace MorePrisonerInteractions.Behavior
         void ExecuteLords(Hero hero)
         {
             KillCharacterAction.ApplyByExecution(hero,Hero.MainHero,true,true);
+            BriceData.Remove(hero);
         }
     }
 }

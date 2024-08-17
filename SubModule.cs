@@ -1,4 +1,5 @@
-﻿using MorePrisonerInteractions.Behavior;
+﻿using HarmonyLib;
+using MorePrisonerInteractions.Behavior;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,8 @@ namespace MorePrisonerInteractions
                 campaignGameStarter.AddBehavior(new DemandRansomBehavior());
                 campaignGameStarter.AddBehavior(new PersuadePrisonerToBecomeCompanionBehavior());
                 campaignGameStarter.AddBehavior(new ForcePrisonerToMarryBehavior());
+                campaignGameStarter.AddBehavior(new GiveGift());
+                campaignGameStarter.AddBehavior(new ThoughtClass());
             }
         }
 
