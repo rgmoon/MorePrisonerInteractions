@@ -28,6 +28,7 @@ using MorePrisonerInteractions.Properties;
 using System.Reflection;
 using TaleWorlds.Engine;
 using static TaleWorlds.CampaignSystem.Actions.ChangeRelationAction;
+using MoreHeroInteractions.Settings;
 
 
 namespace MorePrisonerInteractions.Behavior
@@ -151,6 +152,7 @@ namespace MorePrisonerInteractions.Behavior
             }
             hero.CharacterObject.StringId = "MPI" + hero.CharacterObject.StringId;
             hero.StringId = hero.CharacterObject.StringId;
+            hero.Clan.Heroes.Remove(hero);
             typeof(CharacterObject).GetField("_originCharacter", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(hero.CharacterObject, elementWithPredicate);
             AddCompanionAction.Apply(Clan.PlayerClan, hero);
             AddHeroToPartyAction.Apply(hero, MobileParty.MainParty);
@@ -494,8 +496,53 @@ namespace MorePrisonerInteractions.Behavior
                     }
                 }
             }
+            if (MCMSettings.Instance.RemoveDataMode)
+            {
+                for (int x = Hero.AllAliveHeroes.Count -1; x >= 0 ;--x )
+                {
+                    Hero hero = Hero.AllAliveHeroes.ElementAt(x);
+                    if (hero.Clan == Hero.MainHero.Clan)
+                    {
+                        for (int a = Clan.All.Count -1; a>=0;--a)
+                        {
+                            Clan clan = Clan.All.ElementAt(a);
+                            if (hero!=Hero.MainHero && hero.Clan != clan && clan.Heroes.Contains(hero))
+                            {
+                                clan.Heroes.Remove(hero);
+                                InformationManager.DisplayMessage(new InformationMessage($"Removeing {hero} from {clan} due to he doesn't belong to that clan."));
+                            }
+                            else if (hero != Hero.MainHero && clan.Leader == hero)
+                            {
+                                InformationManager.DisplayMessage(new InformationMessage($"Cannot remove {hero} from {clan} due to he/she is a clan leader! Start force remove."));
+                                if (clan.Heroes.Count >= 0)
+                                {
+                                    for (int i = clan.Heroes.Count - 1; i >= 0; --i)
+                                    {
+                                        if (clan.Heroes.ElementAt(i).IsAlive && clan.Heroes.ElementAt(i).IsChild)
+                                        {
+                                            clan.SetLeader(clan.Heroes.ElementAt(i));
+                                            break;
+                                        }
+                                    }
+                                    if (clan.Leader == hero)
+                                    {
+                                        CharacterObject character = CharacterObject.All.FirstOrDefault(c => c.Occupation == Occupation.Lord);
+                                        Hero temphero = HeroCreator.CreateSpecialHero(character, null, clan, null, -1);
+                                        TextObject FistName = new TextObject("Clan Leader");
+                                        TextObject LastName = new TextObject("Dead");
+                                        temphero.SetName(LastName, FistName);
+                                        clan.SetLeader(temphero);
+                                        DestroyClanAction.Apply(clan);
+                                    }
+                                }
 
+                            }
+                        }
+                    }
+                }
+            }
         }
+
 
         private bool HasPersuasionBeenMadeAndCannotContinue()
         {

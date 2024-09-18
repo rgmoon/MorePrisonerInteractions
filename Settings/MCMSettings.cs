@@ -40,6 +40,10 @@ namespace MoreHeroInteractions.Settings
         [SettingPropertyGroup("{=Settings_MPI_Strip}Strip Lords", GroupOrder = 3)]
         public int stripPrisonerLordMaxRelationLoss { get; set; } = 3;
 
+        [SettingPropertyBool("{=Settings_MPI_StripMaxRelationLoss}Maximum Relation Loss From Strip", HintText = "{=Settings_MPI_StripMaxRelationLossDesc}Remove the encyclopedia old data.",Order = 1, RequireRestart = false)]
+        [SettingPropertyGroup("{=Settings_MPI_RemoveMode}Remove Mode", GroupOrder = 4)]
+        public bool RemoveDataMode { get; set; } = false;
+
 
 
     }

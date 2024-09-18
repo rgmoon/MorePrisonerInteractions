@@ -82,71 +82,74 @@ namespace MorePrisonerInteractions.Behavior
         }
         void OnGivedGift(Hero player, Hero x, List<Barterable> barters)
         {
-            if (x.PartyBelongedTo == null && x.PartyBelongedToAsPrisoner == PartyBase.MainParty)
+            if (x!=null)
             {
-                giftvalue = GetTotalBarterValue(x, x.PartyBelongedToAsPrisoner, PartyBase.MainParty, barters);
-                long TotalValue = 0;
-                DefaultSettlementValueModel settlementValueModel = new DefaultSettlementValueModel();
-                long settlementValue = 0;
-                foreach (Settlement settlement in Settlement.All)
+                if (x.PartyBelongedTo == null && x.PartyBelongedToAsPrisoner == PartyBase.MainParty)
                 {
-                    if (settlement.IsCastle || settlement.IsFortification)
+                    giftvalue = GetTotalBarterValue(x, x.PartyBelongedToAsPrisoner, PartyBase.MainParty, barters);
+                    long TotalValue = 0;
+                    DefaultSettlementValueModel settlementValueModel = new DefaultSettlementValueModel();
+                    long settlementValue = 0;
+                    foreach (Settlement settlement in Settlement.All)
                     {
-                        if (settlement.Owner == x)
+                        if (settlement.IsCastle || settlement.IsFortification)
                         {
-                            settlementValue = (long)settlementValueModel.CalculateSettlementBaseValue(settlement);
-                            TotalValue += (long)settlementValue;
+                            if (settlement.Owner == x)
+                            {
+                                settlementValue = (long)settlementValueModel.CalculateSettlementBaseValue(settlement);
+                                TotalValue += (long)settlementValue;
+                            }
                         }
                     }
-                }
 
-                TotalValue += x.Gold - giftvalue;
+                    TotalValue += x.Gold - giftvalue;
 
 
-                if (giftvalue >= 1 && giftvalue <= 10 && x.GetRelationWithPlayer() >= 0)
-                {
-                    MBTextManager.SetTextVariable("Give_Reaction", "Thanks...I guess?");
-                    GiveStaticRelation(player, x, 1);
-                }
-                else if (giftvalue >= 1 && giftvalue <= 10 && x.GetRelationWithPlayer() < 0)
-                {
-                    MBTextManager.SetTextVariable("Give_Reaction", "You think I'm joke or what? Don't insult me again.");
-                    GiveStaticRelation(player, x, -5);
-                }
-                else if (x.GetRelationWithPlayer() < -70 && giftvalue > TotalValue)
-                {
-                    MBTextManager.SetTextVariable("Give_Reaction", "Based on the value of the gifts you've given me,\n I feel I need to thank you,\nbut I will never forget what you have done, nor the hatred between us.");
-                    GiveStaticRelation(player, x, 20);
-                }
-                else if (x.GetRelationWithPlayer() > -70 && x.GetRelationWithPlayer()< -20 && giftvalue > TotalValue / 2)
-                {
-                    MBTextManager.SetTextVariable("Give_Reaction", "Alright, this time I'm going to thank you,\n but don't forget,\n we are still enemies, that's all.");
-                    GiveStaticRelation(player, x, 15);
-                }
-                else if (x.GetRelationWithPlayer() < 0 && x.GetRelationWithPlayer() > -20 && giftvalue > TotalValue / 4)
-                {
-                    MBTextManager.SetTextVariable("Give_Reaction", "Oh. Thanks! But don’t you think you are too generous to the enemy?");
-                    GiveStaticRelation(player, x, 10);
-                }
-                else if (x.GetRelationWithPlayer() < 20 && x.GetRelationWithPlayer() >= 0 && giftvalue > TotalValue / 8)
-                {
-                    MBTextManager.SetTextVariable("Give_Reaction", "Oh. Thanks! I think we might become friends after this war.");
-                    GiveStaticRelation(player, x, 10);
-                }
-                else if (x.GetRelationWithPlayer() < 70 && x.GetRelationWithPlayer() >= 20 && giftvalue > TotalValue / 10)
-                {
-                    MBTextManager.SetTextVariable("Give_Reaction", "Buddy, You know I don't wanna hurt you...\nBut it is difficult to disobey the king’s order.\nLet's go to the bar after this war,OK?");
-                    GiveStaticRelation(player, x, 10);
-                }
-                else if (x.GetRelationWithPlayer() > 70)
-                {
-                    MBTextManager.SetTextVariable("Give_Reaction", "Bro, you don't have to do this... \nI'll always be your friend. I feel so ashamed.”");
-                    GiveStaticRelation(player, x, 2);
-                }
-                else
-                {
-                    MBTextManager.SetTextVariable("Give_Reaction", "Although it's not as much as I imagined, I'll still accept it. Thank you.");
-                    GiveStaticRelation(player, x, 2);
+                    if (giftvalue >= 1 && giftvalue <= 10 && x.GetRelationWithPlayer() >= 0)
+                    {
+                        MBTextManager.SetTextVariable("Give_Reaction", "Thanks...I guess?");
+                        GiveStaticRelation(player, x, 1);
+                    }
+                    else if (giftvalue >= 1 && giftvalue <= 10 && x.GetRelationWithPlayer() < 0)
+                    {
+                        MBTextManager.SetTextVariable("Give_Reaction", "You think I'm joke or what? Don't insult me again.");
+                        GiveStaticRelation(player, x, -5);
+                    }
+                    else if (x.GetRelationWithPlayer() < -70 && giftvalue > TotalValue)
+                    {
+                        MBTextManager.SetTextVariable("Give_Reaction", "Based on the value of the gifts you've given me,\n I feel I need to thank you,\nbut I will never forget what you have done, nor the hatred between us.");
+                        GiveStaticRelation(player, x, 20);
+                    }
+                    else if (x.GetRelationWithPlayer() > -70 && x.GetRelationWithPlayer() < -20 && giftvalue > TotalValue / 2)
+                    {
+                        MBTextManager.SetTextVariable("Give_Reaction", "Alright, this time I'm going to thank you,\n but don't forget,\n we are still enemies, that's all.");
+                        GiveStaticRelation(player, x, 15);
+                    }
+                    else if (x.GetRelationWithPlayer() < 0 && x.GetRelationWithPlayer() > -20 && giftvalue > TotalValue / 4)
+                    {
+                        MBTextManager.SetTextVariable("Give_Reaction", "Oh. Thanks! But don’t you think you are too generous to the enemy?");
+                        GiveStaticRelation(player, x, 10);
+                    }
+                    else if (x.GetRelationWithPlayer() < 20 && x.GetRelationWithPlayer() >= 0 && giftvalue > TotalValue / 8)
+                    {
+                        MBTextManager.SetTextVariable("Give_Reaction", "Oh. Thanks! I think we might become friends after this war.");
+                        GiveStaticRelation(player, x, 10);
+                    }
+                    else if (x.GetRelationWithPlayer() < 70 && x.GetRelationWithPlayer() >= 20 && giftvalue > TotalValue / 10)
+                    {
+                        MBTextManager.SetTextVariable("Give_Reaction", "Buddy, You know I don't wanna hurt you...\nBut it is difficult to disobey the king’s order.\nLet's go to the bar after this war,OK?");
+                        GiveStaticRelation(player, x, 10);
+                    }
+                    else if (x.GetRelationWithPlayer() > 70)
+                    {
+                        MBTextManager.SetTextVariable("Give_Reaction", "Bro, you don't have to do this... \nI'll always be your friend. I feel so ashamed.”");
+                        GiveStaticRelation(player, x, 2);
+                    }
+                    else
+                    {
+                        MBTextManager.SetTextVariable("Give_Reaction", "Although it's not as much as I imagined, I'll still accept it. Thank you.");
+                        GiveStaticRelation(player, x, 2);
+                    }
                 }
             }
 

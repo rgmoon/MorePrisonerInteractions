@@ -141,7 +141,10 @@ namespace MorePrisonerInteractions.Behavior
                     AddHeroToPartyAction.Apply(Hero.OneToOneConversationHero, MobileParty.MainParty);
                     Clan clan = Hero.OneToOneConversationHero.Clan;
                     clan.Heroes.Remove(Hero.OneToOneConversationHero);
-                    ChangeClanLeaderAction.ApplyWithoutSelectedNewLeader(clan);
+                    if (clan.Leader == Hero.OneToOneConversationHero)
+                    {
+                        ChangeClanLeaderAction.ApplyWithoutSelectedNewLeader(clan);
+                    }
                     AddCompanionAction.Apply(Clan.PlayerClan, Hero.OneToOneConversationHero);
                     TextObject announcement = new TextObject("{=Announcement_MPI_CompanionsMarried}{HERO_NAME} and {HERO_NAME2} are now married!");
                     announcement.SetTextVariable("HERO_NAME", Hero.OneToOneConversationHero.Name);
